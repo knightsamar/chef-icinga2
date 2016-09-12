@@ -45,70 +45,7 @@ This cookbook requires Chef Version 11.x or above.
 See CONTRIBUTING.md
 
 ## TODO
-
-* add icinga2 web2 configuration support
-
-
-## Major Changes
-
-###v2.8.0
-
-* LWRP `environment` now generates endpoint/zone for every node to allow remote_execution.
-* LWRP `environment` now generates pki tickets in a data bag
-* Add example recipes to configure a client/remote_api server which allow
-external command execution
-* Allow to set command_endpoint as var and not only as string
-
-
-###v2.7.1
-
-* LWRP `environment` now generates conf file with resource name suffix to allow same environment multiple resources.
-
->> Existing host_ENVIRONMENT.conf configuration files needs to be purged manually to allow new file name configuration files.
-
-```
-New File Format:
-With Zone: "host_#{environment}_#{zone}_#{resource_name}.conf"
-Without Zone: "host_#{environment}_#{resource_name}.conf"
-
-Old File Format:
-With Zone: "host_#{environment}_#{zone}.conf"
-Without Zone: "host_#{environment}.conf"
-```
-
-###v2.6.9
-
-* Attribute `default['icinga2']['user_defined_objects_d']` is deprecated. For User defined configuration directories,
-use `Array` attribute `default['icinga2']['user_defined_objects_dir']` instead.
-
-###v2.0.1
-
-* icinga web2 uri updated to `/icingaweb2`
-
-* epel repository is by default enabled for rhel platform family except amazon platform
-
-
-###v0.10.1
-
-* Deprecated node *features* attribute and recipe `icinga2::server_features` in favour of LWRP `feature`
-
-
-###v0.7.0
-
-* LWRP `environment` now generates different conf file with zone name if resource attribute `zone` is defined
-
-  **file name:**
-
-  file name without zone: `host_#{environment}_#{resource_name}.conf`
-
-  file name with zone: `host_#{environment}_#{zone}_#{resource_name}.conf`
-
-  >> Note: Cookbook version prior to v0.7.0 users must delete
-    configuration file `host_#{environment}.conf` manually if
-    `zone` attribute is defined.
-
-  >> Note: Cookbook version prior to v2.7.1 users must delete
-    configuration files `host_#{environment}.conf / host_#{environment}_#{zone}.conf` manually.
+See TODO.md
 
 ## Cookbook Dependencies
 
@@ -118,7 +55,6 @@ use `Array` attribute `default['icinga2']['user_defined_objects_dir']` instead.
 * `yum-epel` cookbook
 * `apt` cookbook
 * `pnp4nagios` cookbook
-
 
 
 ## Recipes

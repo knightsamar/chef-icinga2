@@ -3,8 +3,71 @@ icinga2 CHANGELOG
 
 This file is used to list changes made in each version of the icinga2 cookbook.
 
-2.9.0
------
+
+## Major Changes
+
+###v2.8.0
+
+* LWRP `environment` now generates endpoint/zone for every node to allow remote_execution.
+* LWRP `environment` now generates pki tickets in a data bag
+* Add example recipes to configure a client/remote_api server which allow
+external command execution
+* Allow to set command_endpoint as var and not only as string
+
+
+###v2.7.1
+
+* LWRP `environment` now generates conf file with resource name suffix to allow same environment multiple resources.
+
+>> Existing host_ENVIRONMENT.conf configuration files needs to be purged manually to allow new file name configuration files.
+
+```
+New File Format:
+With Zone: "host_#{environment}_#{zone}_#{resource_name}.conf"
+Without Zone: "host_#{environment}_#{resource_name}.conf"
+
+Old File Format:
+With Zone: "host_#{environment}_#{zone}.conf"
+Without Zone: "host_#{environment}.conf"
+```
+
+###v2.6.9
+
+* Attribute `default['icinga2']['user_defined_objects_d']` is deprecated. For User defined configuration directories,
+use `Array` attribute `default['icinga2']['user_defined_objects_dir']` instead.
+
+###v2.0.1
+
+* icinga web2 uri updated to `/icingaweb2`
+
+* epel repository is by default enabled for rhel platform family except amazon platform
+
+
+###v0.10.1
+
+* Deprecated node *features* attribute and recipe `icinga2::server_features` in favour of LWRP `feature`
+
+
+###v0.7.0
+
+* LWRP `environment` now generates different conf file with zone name if resource attribute `zone` is defined
+
+  **file name:**
+
+  file name without zone: `host_#{environment}_#{resource_name}.conf`
+
+  file name with zone: `host_#{environment}_#{zone}_#{resource_name}.conf`
+
+  >> Note: Cookbook version prior to v0.7.0 users must delete
+    configuration file `host_#{environment}.conf` manually if
+    `zone` attribute is defined.
+
+  >> Note: Cookbook version prior to v2.7.1 users must delete
+    configuration files `host_#{environment}.conf / host_#{environment}_#{zone}.conf` manually.
+
+## Detailed changes
+
+###2.9.0
 
 - Gavin Reynolds - Allow re-notifications to be disabled by allowing the value 0 in the interval regex for applynotification
 
@@ -64,8 +127,7 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - Feature #10831, Adds support to use "ignore where" in usergroups
 
-2.7.0
------
+###2.7.0
 
 - Virender Khatri - Feature #10642, bump icinga2 version to v2.4.0
 
@@ -77,8 +139,7 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - Feature #10107, added chefspec
 
-2.6.9
------
+###2.6.9
 
 - analogrithems@gmail.com - Bug 10090, attribute command is optional for resource checkcommand
 
@@ -126,8 +187,7 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - Bug #10215, added MYSQL_HOME env variable during schema load
 
-2.6.5
------
+###2.6.5
 
 - Virender Khatri - Bug #9724, unable to create checkcommand templates via the cookbook
 
@@ -143,15 +203,13 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - Bug #9809, bump icinga2 version to v2.3.8-1 and 1.13.3-0
 
-2.5.7
------
+###2.5.7
 
 - Virender Khatri - Feature #9638, bump icingaweb2 release to v2.0.0-rc1
 
 - Virender Khatri - Feature #9639, bump icinga2 version to v2.3.7
 
-2.5.5
------
+###2.5.5
 
 - Martin Stiborsky - Feature #9492, Node name added as a option for host display name for environment resource
 
@@ -159,15 +217,13 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - Bug #9488, Functions as Custom Attribute doesnt work with custom_vars for checkcommand resource
 
-2.5.2
------
+###2.5.2
 
 - Martin Stiborsky - Updated README for LWRP examples typo fix
 
 - Virender Khatri - Feature #9457, bump icinga2 version to 2.3.5-1
 
-2.5.0
------
+###2.5.0
 
 - Virender Khatri - Bug #9173, update LWRP environment & README for monitoring_off
 
@@ -208,8 +264,7 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 - Virender Khatri - Feature #9299 add icinga2_script resource to add scripts from wrapper cookbook templates
 
 
-2.3.1
------
+###2.3.1
 
 - Virender Khatri - Bug #9037, added Hash support for host / service custom vars
 
@@ -237,18 +292,17 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - Bug #9151, bump icinga2 version to v2.3.4-1, classic_ui version to v1.13.2
 
-2.1.8
------
+###2.1.8
+
 
 - Virender Khatri - Bug #9001, added attribute to ignore default icinga2 package version
 
-2.1.7
------
+###2.1.7
 
 - Virender Khatri - Feature #8997, bump update icinga2 version to v2.3.3
 
-2.1.6
------
+###2.1.6
+
 
 - Virender Khatri - Feature #8630, adding default Host vars remote_client
 
@@ -263,8 +317,8 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 - Virender Khatri - Bug #8838, bump icingaweb2 ref to beta3
 
 
-2.1.0
------
+###2.1.0
+
 
 - Virender Khatri - iBug #8449 update default icingaweb2 version to use tag release
 
@@ -286,8 +340,7 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - iBug #8495 fix for libjpeg62-dev conflict with libgd2-xpm-dev
 
-2.0.1
------
+###2.0.1
 
 - Jannik Zinkl - fixed pgqsl schema setup for extra line char
 
@@ -330,8 +383,7 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 - Andrei Scopenco - iBug #8428 added lwrp zone resource attribute - global
 
 
-0.10.1
------
+###0.10.1
 
 - Gerhard Sulzberger - corrected platform_family case statement in recipe `server_os_packages` & `server_install`
 
@@ -384,8 +436,7 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Jannik Zinkl - fixed typo in recipe server_ido_schema.rb
 
-0.7.6
------
+###0.7.6
 
 - Virender Khatri - LWRP resource custom vars are not sorted
 
@@ -401,13 +452,11 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - updated README
 
-0.7.0
------
+###0.7.0
 
 - Virender Khatri - added multiple zone support for LWRP environment
 
-0.6.8
------
+###0.6.8
 
 - Virender Khatri - fixed ido schema upload recipe
 
@@ -421,8 +470,7 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - fixed LWRP apilistener
 
-0.6.1
------
+###0.6.1
 
 - Virender Khatri - added travis
 
@@ -439,8 +487,7 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - updated README doc
 
-0.5.4
------
+###0.5.4
 
 - Virender Khatri - added pnp4nagios ssi symlink for node graph preview
 
@@ -450,8 +497,7 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - added LWRP doc
 
-0.5.0
------
+###0.5.0
 
 - Virender Khatri - added lwrp for icinga2 feature
 
@@ -472,8 +518,7 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 - Virender Khatri - updated README documentation
 
 
-0.4.2
------
+###0.4.2
 
 - Virender Khatri - removed nrpe client recipe
 
@@ -499,8 +544,7 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - preparing for `ubuntu` platform testing
 
-0.3.0
------
+###0.3.0
 
 - Virender Khatri - allowing node custom_vars hostgroups Array declaration
 
@@ -520,13 +564,11 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - fixed mail notification scripts permissions
 
-0.2.1
------
+###0.2.1
 
 - Virender Khatri - removed files under development for chef supermarket
 
-0.2.0
------
+###0.2.0
 
 - Virender Khatri - added node cpu and memory to custom vars by default
 
@@ -548,8 +590,7 @@ This file is used to list changes made in each version of the icinga2 cookbook.
 
 - Virender Khatri - renamed client recipe to client_nrpe in favor of icinga2 agent
 
-0.1.5
------
+###0.1.5
 
 - Virender Khatri - initial release of icinga2
 
